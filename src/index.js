@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import RoutesManager from './Routes';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
