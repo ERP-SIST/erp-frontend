@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './tailwind.css';
-import Home from './pages/Home';
+import Home from './pages/common/Home';
 
 function RoutesManager() {
   return (
