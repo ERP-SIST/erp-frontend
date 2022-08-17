@@ -1,9 +1,74 @@
+import axios from "axios";
 import TopBar from "../../components/common/Topbar";
 import Title from "../../misc/TitleModifier";
 function Register(){
 
-    const handleChange = (e) => {
+    function hasNumber(myString) {
+        return /\d/.test(myString);
+    }
 
+    function lengthCheck(myString) {
+        return myString.length >= 8;
+    }
+
+    function hasUpperCase(myString) {
+        return /[A-Z]/.test(myString);
+    }
+
+    function hasLowerCase(myString) {
+        return /[a-z]/.test(myString);
+    }
+
+
+    const onRegisterFormSubmit = (e) => {
+        e.preventDefault();
+        const name =  e.target[0].value;
+        const roll_number =  e.target[1].value;
+        const email =  e.target[2].value;
+        const phone =  e.target[3].value;
+        const year =  e.target[4].value;
+        const department =  e.target[5].value;
+        const password =  e.target[6].value;
+        const confirm_password =  e.target[7].value;
+        if(password === confirm_password) {
+           if(hasNumber(password)){
+                if(lengthCheck(password)){
+                    if(hasLowerCase(password)){
+                        if(hasUpperCase(password)){
+                            axios.post(`${process.env.REACT_APP_BACKEND_URL}/student/register`, {
+                                "name": name,
+                                "email": email,
+                                "phone": phone,
+                                "registerNumber": roll_number,
+                                "password": password,
+                                "department": department,
+                                "passoutYear": +year
+                            }).then((res)=>{
+                                console.log(res);
+                                window.alert(res.data.message);
+                            }).catch((err)=>{
+                                console.log(err);
+                            })
+                        } 
+                        else {
+                            window.alert('Password should contain uppercase letters');
+                        }
+                    } 
+                    else {
+                        window.alert('Password should contain lowercase letters');
+                    }     
+                } 
+                else {
+                    window.alert('Password size should be more than 8 Characters');
+                }
+           }
+           else {
+                window.alert('Your password should contain atleast 1 number in password');
+           }
+        }
+        else {
+            window.alert('Password Mismatched');
+        }
     }
     return (
         <>
@@ -13,7 +78,7 @@ function Register(){
                 <div className="mx-auto bg-[#F2F2F2] p-4 rounded-lg">
                    <h1 className="text-bold text-[32px] text-center mt-2 text-[#9e1c3f]">Register</h1>
 
-                   <form className="mt-10">
+                   <form className="mt-10" onSubmit={onRegisterFormSubmit}>
                         <label htmlFor="name" >Name</label>
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="name" type='text' required  />
                         <label htmlFor="rno" className="mt-6 block" >Roll Number/Register Number</label>
@@ -24,40 +89,24 @@ function Register(){
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="phone" type='phone' required  />
                         <label htmlFor="rno" className="mt-6 block" >Graduation Year</label>
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="rno" type='number' min="2020" max="2090" required  />
-                        <label className={"block mt-6"} htmlFor={"section"}>
-                            Section
-                        </label>
-                        <select key={"section"} onChange={handleChange} required defaultValue={""} id={"section"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2">
-                            <option key="" value={""} disabled>
-                                Select your option
-                            </option>
-                        {['A1', 'A2', 'A3', 'A4', 'A5',
-                        'B1', 'B2', 'B3', 'B4', 'B5',
-                        'C1', 'C2', 'C3', 'C4', 'C5',
-                        'D1', 'D2', 'D3', 'D4', 'D5',
-                        'E1', 'E2', 'E3', 'E4', 'E5',
-                        'F1', 'F2', 'F3', 'F4', 'F5'].map((value, key) => (
-                            <option key={key} value={value}>
-                            {value}
-                            </option>
-                        ))}
-                        </select>
 
                         <label className={"block mt-6"} htmlFor={"department"}>
                             Depaertment
                         </label>
-                        <select key={"department"} onChange={handleChange} required defaultValue={""} id={"department"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2">
+                        <select key={"department"} required defaultValue={""} id={"department"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2">
                             <option key="" value={""} disabled>
                                 Select your option
                             </option>
-                        {['CSE', 'EEE', 'IT', 'ECE', 'Mech', 'CSE with AI' ].map((value, key) => (
-                            <option key={key} value={value}>
-                            {value}
-                            </option>
-                        ))}
+                           {['CSE', 'EEE', 'IT', 'ECE', 'Mech', 'CSE with AI' ].map((value, key) => (
+                                <option key={key} value={value}>
+                                {value}
+                                </option>
+                            ))}
                         </select>
                     
                         <label htmlFor="password" className="block mt-6" >Password</label>
+                        <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="password" type='password' required  />
+                        <label htmlFor="password" className="block mt-6" >Confirm Password</label>
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="password" type='password' required  />
                         <div className="flex justify-between">
                             <input type="submit" className="my-5 py-2 bg-[#9e1c3f] text-[#FFF] px-4 mx-auto text-center items-center"></input>

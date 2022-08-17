@@ -3,6 +3,7 @@ import './tailwind.css';
 import Home from './pages/common/Home';
 import Register from './pages/common/Register';
 import Login from './pages/common/Login';
+import StudentHome from './pages/student/Home';
 
 function RoutesManager() {
   return (
@@ -12,6 +13,7 @@ function RoutesManager() {
         <Route exact path = "/home" element = { <Home /> } />
         <Route exact path = "/login" element = { <Login /> } />
         <Route exact path = "/register" element = { <Register /> } />
+        <Route exact path = "/student/home" element = { <StudentHome /> } />
       </Routes>
     </div>
   );

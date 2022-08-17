@@ -1,4 +1,7 @@
+import axios from "axios";
+import { useEffect } from "react";
 import logo from "../../images/sistLogo.png";
+import { getCookie } from "../../misc/CookieManager";
 // import { deleteCookie, getCookie } from "../misc/ManageCookie";
 // import { topBar as style } from "../styles/ComponentsStyle";
 const style =  {
@@ -33,7 +36,19 @@ const style =  {
 
 }
 
-function TopBar({home=false, login=false, register=false}) {
+function TopBar({home=false, option_2=false, option_3=false}) {
+
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/is-logged-in`, {
+            "headers": {
+                "WWW-Authenticate": getCookie('sid')
+            }                  
+          }).then((res)=>{
+              console.info("PASS");
+          }).catch((err)=> {
+              window.location = '/login';
+          })
+    }, []);
 
     return (
         <div className="z-50">
@@ -44,9 +59,9 @@ function TopBar({home=false, login=false, register=false}) {
                 </a>
             </div>
             <div className={style.title_container}>
-                <a href="/" className={home ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>Home</a>
-                <a href="/login" className={login ? 'mr-5 ml-2 text-[#FFF] font-bold' :'mx-5 text-[#DDD] hover:text-[#FFF]'}>Login</a>
-                <a href="/register" className={register ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>Register</a>
+                <a href="/student/home" className={home ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>Home</a>
+                <a href="/" className={option_2 ? 'mr-5 ml-2 text-[#FFF] font-bold' :'mx-5 text-[#DDD] hover:text-[#FFF]'}>option_2</a>
+                <a href="/" className={option_3 ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>option_3</a>
             </div>
         </div>
     );
