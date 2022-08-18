@@ -14,7 +14,8 @@ function RoutesManager() {
         <Route exact path = "/home" element = { <Home /> } />
         <Route exact path = "/login" element = { <Login /> } />
         <Route exact path = "/register" element = { <Register /> } />
-        <Route exact path = "/student/Cae" element = { <Cae /> } />
+        <Route exact path = "/student/cae" element = { <Cae /> } />
+        <Route exact path = "/student/home" element = { <StudentHome /> } />
       </Routes>
     </div>
   );

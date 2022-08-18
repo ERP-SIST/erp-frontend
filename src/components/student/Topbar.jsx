@@ -36,7 +36,7 @@ const style =  {
 
 }
 
-function TopBar({home=false, option_2=false, option_3=false}) {
+function TopBar({home=false, CAE=false, option_3=false}) {
 
     useEffect(()=>{
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/is-logged-in`, {
@@ -60,7 +60,7 @@ function TopBar({home=false, option_2=false, option_3=false}) {
             </div>
             <div className={style.title_container}>
                 <a href="/student/home" className={home ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>Home</a>
-                <a href="/" className={option_2 ? 'mr-5 ml-2 text-[#FFF] font-bold' :'mx-5 text-[#DDD] hover:text-[#FFF]'}>option_2</a>
+                <a href="/student/cae" className={CAE ? 'mr-5 ml-2 text-[#FFF] font-bold' :'mx-5 text-[#DDD] hover:text-[#FFF]'}>CAE</a>
                 <a href="/" className={option_3 ? 'mr-5 ml-2 text-[#FFF] font-bold': 'mx-5 text-[#DDD] hover:text-[#FFF]'}>option_3</a>
             </div>
         </div>

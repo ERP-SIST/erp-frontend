@@ -1,9 +1,9 @@
-import TopBar from "../../components/common/Topbar";
+import TopBar from "../../components/student/Topbar";
 
-    const Cae = ()=> {
+const Cae = ()=> {
     return (
         <div className="bg-[#FFF]">
-            <TopBar Cae={true}/>
+            <TopBar cae={true}/>
                 <h1 className="text-bold text-[32px] text-center mt-2 text-[#9e1c3f]">CAE Marks Portal</h1>
                 <div className="flex-auto pl-28">
             <form action="">
