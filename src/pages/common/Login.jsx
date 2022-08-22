@@ -1,8 +1,30 @@
 import axios from "axios";
+import { useEffect } from "react";
 import TopBar from "../../components/common/Topbar";
-import { setCookie } from "../../misc/CookieManager";
+import { getCookie, setCookie } from "../../misc/CookieManager";
 import Title from "../../misc/TitleModifier";
+import { student } from "../../misc/values/roles";
 function Login(){
+
+
+    useEffect(()=>{
+        const sid = getCookie('sid');
+        if(sid) {
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/is-logged-in`, {
+                "headers": {
+                    "WWW-Authenticate": sid
+                }                  
+              }).then((res)=>{
+                console.log(res);
+                //   window.location = '/login';
+                }).catch((err)=> {
+                    console.log(err);
+                    console.info("PASS");
+                })
+        }
+    }, []);
+
+
     const handleChange = (e)=> {
         console.log(+e.target.value);
     }
@@ -12,7 +34,7 @@ function Login(){
         const username = (e.target[1].value);
         const password = (e.target[2].value);
 
-        if(userLevel === 3) {
+        if(userLevel === student) {
             axios.post(`${process.env.REACT_APP_BACKEND_URL}/student/login`, {
               "registerNumber": username,
               "password": password                  

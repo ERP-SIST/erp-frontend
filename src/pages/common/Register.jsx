@@ -87,8 +87,8 @@ function Register(){
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="email" type='email' required  />
                         <label htmlFor="phone" className="mt-6 block" >Phone Number</label>
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="phone" type='phone' required  />
-                        <label htmlFor="rno" className="mt-6 block" >Graduation Year</label>
-                        <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="rno" type='number' min="2020" max="2090" required  />
+                        <label htmlFor="year" className="mt-6 block" >Year of Admission</label>
+                        <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="year" type='number' min="2020" max="2090" required  />
 
                         <label className={"block mt-6"} htmlFor={"department"}>
                             Depaertment
