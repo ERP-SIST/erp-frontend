@@ -42,7 +42,7 @@ function Register(){
                                 "registerNumber": roll_number,
                                 "password": password,
                                 "department": department,
-                                "passoutYear": +year
+                                "yearOfAdmission": +year
                             }).then((res)=>{
                                 console.log(res);
                                 window.alert(res.data.message);
@@ -91,7 +91,7 @@ function Register(){
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="year" type='number' min="2020" max="2090" required  />
 
                         <label className={"block mt-6"} htmlFor={"department"}>
-                            Depaertment
+                            Department
                         </label>
                         <select key={"department"} required defaultValue={""} id={"department"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2">
                             <option key="" value={""} disabled>

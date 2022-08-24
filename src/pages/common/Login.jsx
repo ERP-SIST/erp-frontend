@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TopBar from "../../components/common/Topbar";
 import { getCookie, setCookie } from "../../misc/CookieManager";
 import Title from "../../misc/TitleModifier";
-import { student } from "../../misc/values/roles";
+import { staff, student } from "../../misc/values/roles";
 function Login(){
 
-
+    const [username, setUsername] = useState('username');
     useEffect(()=>{
         const sid = getCookie('sid');
         if(sid) {
@@ -16,7 +16,12 @@ function Login(){
                 }                  
               }).then((res)=>{
                 console.log(res);
-                //   window.location = '/login';
+                if(res.data.user.role === student){
+                    window.location = '/student/home';
+                }
+                if(res.data.user.role === staff){
+                    window.location = '/staff/home';
+                }
                 }).catch((err)=> {
                     console.log(err);
                     console.info("PASS");
@@ -26,7 +31,13 @@ function Login(){
 
 
     const handleChange = (e)=> {
-        console.log(+e.target.value);
+        const user_role = (+e.target.value);
+        if(user_role === student) {
+            setUsername("Register Number")
+        }
+        else {
+            setUsername("Email")
+        }
     }
     const submitLoginForm = (e) => {
         e.preventDefault();
@@ -40,9 +51,20 @@ function Login(){
               "password": password                  
             }).then((res)=>{
                 console.log(res);
-                window.alert(res.data.message);
                 setCookie('sid', res.data.sessionkey);
                 window.location = '/student/home'; 
+            }).catch((err)=> {
+                console.log(err);
+            })
+        }
+        if(userLevel === staff) {
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/staff/login`, {
+              "email": username,
+              "password": password                  
+            }).then((res)=>{
+                console.log(res);
+                setCookie('sid', res.data.sessionkey);
+                window.location = '/staff/home'; 
             }).catch((err)=> {
                 console.log(err);
             })
@@ -62,14 +84,14 @@ function Login(){
                             <option key="" value={""} disabled>
                                 Select your option
                             </option>
-                           {['Super-Admin', 'Dean/HOD', 'Teaching Staff', 'Student'].map((value, key) => (
+                           {['Super-Admin', 'Dean', 'HOD', 'Teaching Staff', 'Student'].map((value, key) => (
                             <option key={key} value={key}>
                             {value}
                             </option>
                         ))}
                         </select>
 
-                        <label className="block mt-6" htmlFor="username" >Username</label>
+                        <label className="block mt-6" htmlFor="username" >{username}</label>
                         <input className="block focus:border-2 focus:outline-none rounded-lg border-0 border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2" id="username" type='text' required  />
                         <div className="mt-6"></div>
                         <label htmlFor="password" >Password</label>
