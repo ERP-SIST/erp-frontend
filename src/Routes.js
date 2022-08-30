@@ -7,6 +7,7 @@ import StudentHome from './pages/student/Home';
 import StudentCae from './pages/student/Cae'
 import StaffHome from './pages/staff/Home';
 import StaffSubject from './pages/staff/SubjectView';
+import StudentSubject from './pages/student/SubjectView';
 
 function RoutesManager() {
   return (
@@ -20,7 +21,7 @@ function RoutesManager() {
         <Route exact path = "/student/home" element = { <StudentHome /> } />
         <Route exact path = "/staff/home" element = { <StaffHome /> } />
         <Route exact path = "/staff/subject/:id" element = { <StaffSubject /> } />
-        <Route exact path = "/staff/cae" element = { <StaffHome /> } />
+        <Route exact path = "/student/subject/:id" element = { <StudentSubject /> } />
       </Routes>
     </div>
   );

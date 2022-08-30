@@ -7,7 +7,7 @@ import Title from "../../misc/TitleModifier";
 function StudentHome(){
 
     const [subjects, setSubjects] = useState([]);
-    const [batch, setBatch] = useState([]);
+    const [semester, setsemester] = useState([]);
     const [bacthVisibility, setCourseVisibility] = useState(false);
     
     useEffect(()=>{
@@ -22,10 +22,10 @@ function StudentHome(){
         })
     }, []);
 
-    const handleBatchChange = (e) => {
+    const handlesemesterChange = (e) => {
         const value = e.target.value;
         console.log(value);
-        setBatch(value);
+        setsemester(value);
         console.log(subjects[value])
         setCourseVisibility(true);
     }
@@ -35,8 +35,8 @@ function StudentHome(){
             <Title name="Sathyabama ERP - Home"/>
             <TopBar home={true}/>
             <div className="border my-6 mx-6">
-                <label htmlFor="semester">Semester</label>
-                <select key={"section"} onChange={handleBatchChange} required defaultValue={""} id={"semester"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#DDD] text-[18px] w-screen max-w-[320px] py-2 px-2">
+                <label htmlFor="semester" className="px-6 font-bold my-2 block">Semester</label>
+                <select key={"section"} onChange={handlesemesterChange} required defaultValue={""} id={"semester"} className="block border-2 focus:border-2 focus:outline-none rounded-lg bg-[#FFF] border-[#DDD] text-[18px] w-screen max-w-[320px] py-2 px-2 mx-4">
                     <option key="" value={""} disabled>
                         Select your option
                     </option>
@@ -51,9 +51,9 @@ function StudentHome(){
                     </div>
                 { bacthVisibility ? <div>
                     <div className="flex flex-col">
-                        {Object.keys(subjects[batch]).map((value)=>{
-                                return <div onClick={()=>{ window.open(`/student/subject/${value}?batch=${batch}`);}} className="border w-[100%] py-2 px-6 text-xl">
-                                    <b>{subjects[batch][value]["code"]}</b> - {subjects[batch][value]["name"]}
+                        {Object.keys(subjects[semester]).map((value)=>{
+                                return <div onClick={()=>{ window.open(`/student/subject/${value}?semester=${semester}`);}} className="border w-[100%] py-2 px-6 text-xl">
+                                    <b>{subjects[semester][value]["code"]}</b> - {subjects[semester][value]["name"]}
                                 </div>
                             })
                         } 

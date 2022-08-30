@@ -34,7 +34,8 @@ function StaffHome(){
             <Title name="Sathyabama ERP - Home"/>
             <TopBar home={true}/>
             <div className="border my-6 mx-6">
-                <select key={"section"} onChange={handleBatchChange} required defaultValue={""} id={"section"} className="block focus:border-2 focus:outline-none rounded-lg border-0 bg-[#FFF] border-[#FFF] text-[18px] w-screen max-w-[320px] py-2 px-2">
+                <label htmlFor="batch" className="px-6 font-bold my-2 block">Batch</label>                
+                <select key={"section"} onChange={handleBatchChange} required defaultValue={""} id={"batch"} className="block focus:border-2 focus:outline-none rounded-lg border-2 bg-[#FFF] border-[#DDD] text-[18px] w-screen max-w-[320px] py-2 px-2 mx-4">
                     <option key="" value={""} disabled>
                         Select your option
                     </option>
@@ -44,10 +45,10 @@ function StaffHome(){
                         </option>
                     ))}
                 </select>
-                { bacthVisibility && <div>
-                    <div className="border mt-6 py-2 px-6 text-[#FFF] bg-[#831238] font-bold text-2xl">
-                        Course List
-                    </div>
+                <div className="border mt-6 py-2 px-6 text-[#FFF] bg-[#831238] font-bold text-2xl">
+                    Course List
+                </div>
+                { bacthVisibility ? <div>
                     <div className="flex flex-col">
                         {Object.keys(subjects[batch]).map((value)=>{
                                 return <div onClick={()=>{ window.open(`/staff/subject/${value}?batch=${batch}`);}} className="border w-[50%] py-2 px-6 text-xl">
@@ -56,7 +57,11 @@ function StaffHome(){
                             })
                         } 
                     </div>
-                </div>}
+                </div> : <div className="flex flex-col">
+                        <div className="border w-[100%] py-2 px-6 text-xl">
+                            <b>Select the semester from the dropdown to see the course list</b>
+                        </div>
+                    </div> }
             </div>
         </div>
     );
