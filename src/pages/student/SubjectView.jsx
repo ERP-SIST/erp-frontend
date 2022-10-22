@@ -23,8 +23,44 @@ function StudentSubject(){
     
     const [isSubjectInfoLoading, setSubjectInfoLoading] = useState(false);
     
-    const [cae1, setcae1] = useState({});
-    const [cae2, setcae2] = useState({});
+    const [cae1, setcae1] = useState({
+        "A": [
+            {question:1, maxMark: 2, co: 1},
+            {question:2, maxMark: 2, co: 1},
+            {question:3, maxMark: 2, co: 1},
+            {question:4, maxMark: 2, co: 1},
+            {question:5, maxMark: 2, co: 2},
+            {question:6, maxMark: 2, co: 2},
+            {question:7, maxMark: 2, co: 2}
+           ],
+        "B": [
+            {question:8, maxMark: 12, co: 1},
+            {question:9, maxMark: 12, co: 1},
+            {question:10, maxMark: 12, co: 2},
+            {question:11, maxMark: 12, co: 2},
+            {question:12, maxMark: 12, co: 1},
+            {question:13, maxMark: 12, co: 2}
+           ],
+        });
+    const [cae2, setcae2] = useState({
+        "A": [
+            {question:1, maxMark: 2, co: 1},
+            {question:2, maxMark: 2, co: 1},
+            {question:3, maxMark: 2, co: 1},
+            {question:4, maxMark: 2, co: 1},
+            {question:5, maxMark: 2, co: 2},
+            {question:6, maxMark: 2, co: 2},
+            {question:7, maxMark: 2, co: 2}
+           ],
+        "B": [
+            {question:8, maxMark: 12, co: 1},
+            {question:9, maxMark: 12, co: 1},
+            {question:10, maxMark: 12, co: 2},
+            {question:11, maxMark: 12, co: 2},
+            {question:12, maxMark: 12, co: 1},
+            {question:13, maxMark: 12, co: 2}
+           ],
+    });
     
     const [sectionSize, setSectionSize] = useState([]);
 
@@ -45,7 +81,7 @@ function StudentSubject(){
                 'WWW-Authenticate': getCookie('sid')
             }
         }).then((res)=>{
-            setcae1(res.data.format);
+            // setcae1(res.data.format);
             setCae1Marks(res.data.marks);
             console.log(res.data);
         })
@@ -55,7 +91,7 @@ function StudentSubject(){
                 'WWW-Authenticate': getCookie('sid')
             }
         }).then((res)=>{
-            setcae2(res.data.format);
+            // setcae2(res.data.format);
             setCae2Marks(res.data.marks);
             console.log(res.data);
         })
@@ -92,11 +128,12 @@ function StudentSubject(){
         e.preventDefault();
         const payload = {};
         console.log(e);
-        for(var i =0; i < e.target.length-1; i+=4){
+        for(var i =0; i < e.target.length-1; i+=5){
             payload[e.target[i].value] = {}
-            payload[e.target[i].value]["section"] = +e.target[i+1].value;
-            payload[e.target[i].value]["mark"] = +e.target[i+2].value;
-            payload[e.target[i].value]["total"] = +e.target[i+3].value;
+            payload[e.target[i].value]["co"] = +e.target[i+1].value;
+            payload[e.target[i].value]["section"] = +e.target[i+2].value;
+            payload[e.target[i].value]["mark"] = +e.target[i+3].value;
+            payload[e.target[i].value]["total"] = +e.target[i+4].value;
         }
         console.log({
             "marks": payload,
@@ -120,14 +157,15 @@ function StudentSubject(){
         e.preventDefault();
         const payload = {};
         console.log(e);
-        for(var i =0; i < e.target.length-1; i+=4){
+        for(var i =0; i < e.target.length-1; i+=5){
             payload[e.target[i].value] = {}
-            payload[e.target[i].value]["section"] = +e.target[i+1].value;
-            payload[e.target[i].value]["mark"] = +e.target[i+2].value;
-            payload[e.target[i].value]["totalmark"] = +e.target[i+3].value;
+            payload[e.target[i].value]["co"] = +e.target[i+1].value;
+            payload[e.target[i].value]["section"] = +e.target[i+2].value;
+            payload[e.target[i].value]["mark"] = +e.target[i+3].value;
+            payload[e.target[i].value]["total"] = +e.target[i+4].value;
         }
         console.log(payload);
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/student/cae/1/marks/update`, {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/student/cae/2/marks/update`, {
             "marks": payload,
             "subjectID": +id
         },
@@ -170,50 +208,46 @@ function StudentSubject(){
                 <h1 className="text-3xl font-bold text-[#831238] my-2 mx-2">
                     {data?.code} - {data?.name}
                 </h1>
-                <div className="flex flex-wrap">
-                {cae1 ? <div className="mx-2 my-7 mr-20 text-lg">   
-                    <p className="text-xl font-extrabold text-[#831238] mb-2">
-                        CAE 1 Pattern
-                    </p> 
-                    {Object.keys(cae1).map((value, index)=>{
-                        return(
-                            <div key={index} className="px-2 my-2 font-bold" >
-                                <b>Part {index+1}</b> 
-                                <div className="font-bold text-black"><p>Questions: {cae1[value]["questions"]}</p>Maximum Marks: {cae1[value]["maxMark"]}</div>
-                            </div>
-                        )
-                    })}
-                </div> : <p className="text-xl font-extrabold text-[#831238] mb-2">
-                        CAE 1 Pattern - Not Set
-                    </p> }
 
-                    {cae2 ? <div className="mx-2 my-7 text-lg">   
-                    <p className="text-xl font-extrabold text-[#831238] mb-2">
-                        CAE 2 Pattern
-                    </p> 
-                    {Object.keys(cae2).map((value, index)=>{
-                        return(
-                            <div key={index} className="px-2 my-2 font-bold" >
-                                <b>Part {index+1}</b> 
-                                <div className="font-bold text-black"><p>Questions: {cae2[value]["questions"]}</p>Maximum Marks: {cae2[value]["maxMark"]}</div>
-                            </div>
-                        )
-                    })}
-                </div> : <p className="text-xl font-extrabold text-[#831238] mb-2">
-                        CAE 2 Pattern - Not Set
-                    </p> }
-                </div>
-
-                <p className="text-lg text-[#831238] my-2">
-                    <b>CAE 1 Marks:</b> 
+                <p className="text-lg text-[#831238] mt-6 my-2">
+                    <b>CAE 1 Marks</b>
+                    <div className="flex flex-wrap">
                     { cae1Marks ?
-                        Object.keys(cae1Marks).map((value)=>{                        
-                            return <p className="text-[#121212]">{value}) {cae1Marks[value]["mark"]}/{cae1Marks[value]["total"]}</p>
-                        }) : <span className="text-[#121212]">"Marks are not updated"</span>
+                            Object.keys(cae1Marks).map((value)=>{                        
+                                return <table className="w-12 mt-4 text-[#121212]">
+                                    <tr className="bg-[#831238] text-[#FFF] text-center border border-[#000]">
+                                        {value}
+                                    </tr>
+                                    <tr className="bg-[#FFF] text-center border border-[#000]">
+                                        {cae1Marks[value]["mark"]}
+                                    </tr>
+                                    <tr className="bg-[#FFF] text-center border border-[#000]">
+                                        {cae1Marks[value]["total"]}
+                                    </tr>
+                                </table>
+                            }) : <span className="text-[#121212]"> Marks are not updated</span>
                     }
+                    </div> 
                 </p>
-                <p className="text-lg text-[#831238] my-2">
-                    <b>CAE 2 Marks:</b> <span className="text-[#121212]">{cae2Marks ? cae2Marks : "Marks are not updated"}</span>
+                <p className="text-lg text-[#831238] mt-6 my-2">
+                    <b>CAE 2 Marks</b> 
+                    <div className="flex flex-wrap">
+                        { cae2Marks ?
+                            Object.keys(cae2Marks).map((value)=>{                        
+                                return <table className=" w-12 mt-4 text-[#121212]">
+                                    <tr className="bg-[#831238] text-[#FFF] text-center border border-[#000]">
+                                        {value}
+                                    </tr>
+                                    <tr className="bg-[#FFF] text-center border border-[#000]">
+                                        {cae2Marks[value]["mark"]}
+                                    </tr>
+                                    <tr className="bg-[#FFF] text-center border border-[#000]">
+                                        {cae2Marks[value]["total"]}
+                                    </tr>
+                                </table>
+                            }) : <span className="text-[#121212]"> Marks are not updated</span>
+                        }
+                    </div>
                 </p>
                 <div className="flex justify-center flex-wrap my-2 font-bold">
                     {
@@ -237,31 +271,26 @@ function StudentSubject(){
                             <>
                                     
                                 {
-                                    [1].map((value)=>{
-                                        var i = 0;
+                                    Object.keys(cae1).map((value)=>{
                                         return <>
-                                        {
-                                        Object.keys(cae1).map((value)=>{
-                                        return <>
-                                        <p className="text-[#831238] text-2xl font-bold mt-10">Section {value}</p>
+                                        <p className="text-[#831238] text-2xl font-bold mt-10">Part {value}</p>
                                         <div className="flex flex-wrap">
-                                        {[...Array(+cae1[value]["questions"])].map((value1, index)=>{
-                                            i+=1;
+                                        {cae1[value].map((value1, index)=>{
                                             return <div className="my-10 flex flex-col mx-2 border-2 rounded-md p-2 border-[#DDD]">
-                                                        <p className="my-2 font-bold text-lg text-[#831238]">Question <input required type="number" disabled value={i} className="h-10 max-questions border-[#DDD] outline-none w-14 rounded-md"></input></p>
+                                                        <p className="my-2 font-bold text-lg text-[#831238]">Question 
+                                                            <input required type="number" disabled value={value1.question} className="h-10 max-questions border-[#DDD] ml-2 outline-none w-10 rounded-md"></input>
+                                                            CO<input required type="number" disabled value={value1.co} className="h-10 co border-[#DDD] outline-none w-7 rounded-md"></input>
+                                                        </p>
                                                         <input required type="number" disabled value={value} className="h-10 hidden max-questions border-[#DDD] outline-none w-14 rounded-md"></input>
                                                         <p className="my-2 font-bold text-lg text-[#121212]">Marks Scored</p>
-
-                                                        <input required type="number" min="0" max={cae1[value]["maxMark"]} className="h-10 max-questions border-2 border-[#DDD] outline-none w-full px-2 mr-10 rounded-md"></input>
+                                                        <input required type="number" min="0" max={value1["maxMark"]} className="h-10 max-questions border-2 border-[#DDD] outline-none w-full px-2 mr-10 rounded-md"></input>
                                                         <p className="my-2 font-bold text-lg text-[#121212]">Maximum Marks</p>
-                                                        <input disabled value={cae1[value]["maxMark"]} required type="number" min="1" max="30" className="h-10 max-marks border-2 border-[#DDD] outline-none px-2 rounded-md"></input>
+                                                        <input disabled value={value1["maxMark"]} required type="number" min="1" max="30" className="h-10 max-marks border-2 border-[#DDD] outline-none px-2 rounded-md"></input>
                                                     </div>
                                         })}
                                         </div>
                                         </>
-                                    }) }</>
-                                    }
-                                )}
+                                    })}
                                 {sectionSize && <button onClick={()=>{console.log(document.getElementById("cae1marksenteringarea").length)}} className="bg-[#831238] font-bold my-4 mx-2 px-4 py-2 rounded-md text-white hover:bg-[#b5305c]"
                                 >Submit</button>}
                             </>
@@ -274,37 +303,33 @@ function StudentSubject(){
                     <h1 className="text-3xl font-bold text-[#831238] my-2">
                         Add CAE 2 Marks
                     </h1>
-                    <form onSubmit={formSubmitC2} id="cae1marksenteringarea" className="-mx-2 text-lg">
+                    <form onSubmit={formSubmitC2} id="cae2marksenteringarea" className="-mx-2 text-lg">
                         {
                             cae2 && 
                             <>
                                     
                                 {
-                                    [1].map((value)=>{
-                                        var i = 0;
+                                    Object.keys(cae2).map((value)=>{
                                         return <>
-                                        {
-                                        Object.keys(cae2).map((value)=>{
-                                        return <>
-                                        <p className="text-[#831238] text-2xl font-bold mt-10">Section {value}</p>
+                                        <p className="text-[#831238] text-2xl font-bold mt-10">Part {value}</p>
                                         <div className="flex flex-wrap">
-                                        {[...Array(+cae2[value]["questions"])].map((value1, index)=>{
-                                            i+=1;
+                                        {cae1[value].map((value1, index)=>{
                                             return <div className="my-10 flex flex-col mx-2 border-2 rounded-md p-2 border-[#DDD]">
-                                                        <p className="my-2 font-bold text-lg text-[#831238]">Question <input required type="number" disabled value={i} className="h-10 max-questions border-[#DDD] outline-none w-14 rounded-md"></input></p>
+                                                        <p className="my-2 font-bold text-lg text-[#831238]">Question 
+                                                            <input required type="number" disabled value={value1.question} className="h-10 max-questions border-[#DDD] ml-2 outline-none w-10 rounded-md"></input>
+                                                            CO<input required type="number" disabled value={value1.co} className="h-10 co border-[#DDD] outline-none w-7 rounded-md"></input>
+                                                        </p>
                                                         <input required type="number" disabled value={value} className="h-10 hidden max-questions border-[#DDD] outline-none w-14 rounded-md"></input>
                                                         <p className="my-2 font-bold text-lg text-[#121212]">Marks Scored</p>
-                                                        <input required type="number" min="0" max={cae2[value]["maxMark"]} className="h-10 max-questions border-2 border-[#DDD] outline-none w-full px-2 mr-10 rounded-md"></input>
+                                                        <input required type="number" min="0" max={value1["maxMark"]} className="h-10 max-questions border-2 border-[#DDD] outline-none w-full px-2 mr-10 rounded-md"></input>
                                                         <p className="my-2 font-bold text-lg text-[#121212]">Maximum Marks</p>
-                                                        <input disabled value={cae2[value]["maxMark"]} required type="number" min="1" max="30" className="h-10 max-marks border-2 border-[#DDD] outline-none px-2 rounded-md"></input>
+                                                        <input disabled value={value1["maxMark"]} required type="number" min="1" max="30" className="h-10 max-marks border-2 border-[#DDD] outline-none px-2 rounded-md"></input>
                                                     </div>
                                         })}
                                         </div>
                                         </>
-                                    }) }</>
-                                    }
-                                )}
-                                {sectionSize && <button onClick={()=>{console.log(document.getElementById("cae1marksenteringarea").length)}} className="bg-[#831238] font-bold my-4 mx-2 px-4 py-2 rounded-md text-white hover:bg-[#b5305c]"
+                                    })}
+                                {sectionSize && <button onClick={()=>{console.log(document.getElementById("cae2marksenteringarea").length)}} className="bg-[#831238] font-bold my-4 mx-2 px-4 py-2 rounded-md text-white hover:bg-[#b5305c]"
                                 >Submit</button>}
                             </>
                         }
